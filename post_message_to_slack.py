@@ -25,9 +25,7 @@ def post_message_to_slack(message: str, channel: str):
     return res
 
 # イベントが起こった部屋にその人だけにしか見えないメンションを返す
-
-
-def post_personal_message_to_slack(message: str, channel: str, user: str, team_id: str, nas_type='eggplant'):
+def post_personal_message_to_slack(message: str, channel: str, user: str):
     # Slackのchat.postMessage APIを利用して投稿する
 
     bot_token = "Bearer {0}".format(os.environ["SLACK_BOT_USER_ACCESS_TOKEN"])
@@ -49,3 +47,25 @@ def post_personal_message_to_slack(message: str, channel: str, user: str, team_i
     requests.post(url, data=json.dumps(data).encode("utf-8"), headers=headers)
 
     return
+
+# スレッドで返信する
+def post_thread_message(message, channel, ts):
+    print('call post_thread_message')
+    bot_token = "Bearer {0}".format(os.environ["SLACK_BOT_USER_ACCESS_TOKEN"])
+    oauth_token = os.environ["SLACK_OAUTH_ACCESS_TOKEN"]
+
+    url = "https://slack.com/api/chat.postMessage"
+    headers = {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": bot_token
+    }
+
+    data = {
+        "token": oauth_token,
+        "channel": channel,
+        "text": message,
+        "thread_ts": ts
+    }
+
+    res = requests.post(url, data=json.dumps(data).encode("utf-8"), headers=headers)
+    return res
