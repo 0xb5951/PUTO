@@ -13,6 +13,10 @@ def return_200():
 
 def main_func(event, context):
     print(event)
+    # Slackからのリクエストがリトライ処理であるかを確認
+    if 'X-Slack-Retry-Num' in event['params']['header']:
+        print("this is redirect request!.")
+        return 0
 
     post_text = event['body']['event']['text']
     channel = event['body']['event']['channel']
@@ -31,5 +35,4 @@ def main_func(event, context):
 
     message = "そんなコマンドはないよ！以下でヘルプを確認してね"
     post_message_to_slack(message, channel)
-
     return 0
