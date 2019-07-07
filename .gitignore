@@ -24,3 +24,5 @@ __pycache__/
 *.zip
 gcp_api_key.txt
 client_id.json
+credentials.json
+settings.yaml
