@@ -19,11 +19,12 @@ lambda関数のzipでアップロードする。
 
 ### スレッドメッセージ
 GETでとれる。
-- テキスト群 : [0]['messages']['replies']['']
-- その詳細 : [X]['text']
-- 送られたメッセージのタイプ : [X]['subtype']
+- テキスト群 : ['messages'][0]['replies']['']
+- その詳細 : ['messages'][X]['text']
+- 送られたメッセージのタイプ : ['messages'][X]['subtype'] or ['messages'][X]['type']
 bot_messageをはじく
-- それを送ったユーザ : [X]['user']
+subtypeはbotだけ
+- それを送ったユーザID : ['messages'][X]['user']
 
 ## ユーザ一覧を取得する
 GETでとれる。スコープ必要。Botもとれる
@@ -45,6 +46,26 @@ https://api.slack.com/methods/channels.replies/test
 https://slack.com/api/channels.replies?token=SLACKトークン&channel=チャンネル名&thread_ts=メッセージのタイムスタンプ
 ```
 スレッドが開始したメッセージのタイムスタンプを入力する必要がある。
+
+## Googleドライブの各種
+https://qiita.com/akabei/items/f25e4f79dd7c2f754f0e
+これにはGCP側で受け取り関数を作成する必要があるので、それを設定する。
+
+まず新しいプロジェクトを作成する。
+OAuthIDを発行する。
+
+Drive APIを有効化して、認証情報を作成する。
+### ファイルアップロード
+以下のAPIが必要
+```
+google-api-python-client PyDrive
+```
+
+ローカルにインストール
+```
+pip install google-api-python-client PyDrive -t .
+```
+
 
 
 ## Lambdaの環境変数
