@@ -7,3 +7,4 @@ urllib3/
 
 __pycache__/
 *.zip
+gcp_api_key.txt
