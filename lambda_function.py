@@ -3,6 +3,7 @@ import threading
 import requests
 import os
 from post_message_to_slack import post_message_to_slack, post_thread_message
+from GDrive_controller import save_text_file
 
 def lambda_handler(event, context):
     thread_1 = threading.Thread(target=return_200)
@@ -88,9 +89,11 @@ def main_func(event, context):
         for p_user in p_users:
             output_text += " {} ".format(p_user)
 
+        output_text += "\n\n{}".format(col_text)
+        folder_id = '1S1Pv5OdU55vQLpdFkaNh-J7GxDjSQh2-'
+        save_text_file(folder_id, "Slackからのテスト投稿", output_text)
+
         message = "MTGを終了したよ！このスレッドの内容は以下のリンクに書き込んでおいたよ！\n https://www.google.com/"
-        print(col_text)
-        print(output_text)
         res = post_thread_message(message, channel, message_ts)
         return 0
 
