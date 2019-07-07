@@ -56,7 +56,9 @@ OAuthIDを発行する。
 
 Drive APIを有効化して、認証情報を作成する。
 ### ファイルアップロード
-以下のAPIが必要
+参考
+https://news.mynavi.jp/article/zeropython-16/
+以下のパッケージが必要
 ```
 google-api-python-client PyDrive
 ```
@@ -66,7 +68,12 @@ google-api-python-client PyDrive
 pip install google-api-python-client PyDrive -t .
 ```
 
+Driveへの初回書き込みは認証が必要なので、ローカルで実行してから
 
+特定のフォルダ配下に書き込むためには、フォルダのIDが必要。
+
+## ファイルとフォルダを検索する
+フォルダはランダムなIDで管理されている。
 
 ## Lambdaの環境変数
 Slackのアクセストークン
@@ -75,3 +82,5 @@ Slackのアクセストークン
 
 ## 参考文献
 https://qiita.com/gureta/items/879eef81055921f845aa
+https://admarimoin.hatenablog.com/entry/2018/05/07/200939
+https://news.mynavi.jp/article/zeropython-16/

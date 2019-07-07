@@ -15,10 +15,14 @@ requests/
 rsa/
 uritemplate/
 urllib3/
+pyasn1/
+pyasn1_modules/
+yaml/
 
 google_auth_httplib2.py
 google_auth-1.6.3-py3.5-nspkg.pth
 six.py
+_yaml.cp36-win_amd64.pyd
 
 __pycache__/
 *.zip
