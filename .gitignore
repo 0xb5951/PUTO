@@ -1,8 +1,19 @@
+apiclient/
 bin/
 certifi/
+cachetools/
 chardet/
+google/
+googleapiclient/
+httplib2/
 idna/
+oauth2client/
+pyans1/
+pyans1_modules/
+pydrive/
 requests/
+rsa/
+uritemplate/
 urllib3/
 
 __pycache__/
