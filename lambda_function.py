@@ -5,6 +5,8 @@ import os
 from post_message_to_slack import post_message_to_slack, post_thread_message
 from GDrive_controller import save_text_file
 
+folder_id = '1S1Pv5OdU55vQLpdFkaNh-J7GxDjSQh2-'
+
 def lambda_handler(event, context):
     thread_1 = threading.Thread(target=return_200)
     thread_2 = threading.Thread(target=main_func(event, context))
@@ -44,8 +46,14 @@ def main_func(event, context):
     message_ts = event['body']['event']['ts']
 
     if 'start_mtg' in post_text:
-        message = "MTGを始めるよ！参加する人はjoin、興味がある人はwatchをスレッドに書き込んでね！"
+        message = "MTGを始めるよ！スレッドに\n```\n@PUTO title MTGのタイトル\n```\nを入力してね！"
         post_message_to_slack(message, channel)
+        return 0
+
+    # タイトルの確認
+    if 'title' in post_text and '<@UL8FXT8QN>' in post_text:
+        message = "タイトルを保存したよ！\nこのMTGに参加する人はjoin、興味がある人はwatchをスレッドに書き込んでね！"
+        res = post_thread_message(message, channel, message_ts)
         return 0
 
     if 'end_mtg' in post_text:
@@ -71,7 +79,7 @@ def main_func(event, context):
                 if thread_message["subtype"] == 'bot_message':
                     continue
 
-            # 参加者を抜き出す.ここは重複不可
+            # 参加者を抜き出す.
             if 'join' in thread_message["text"]:
                 match_point = user_ids.index(thread_message['user'])
                 p_users.add(user_names[match_point])
@@ -90,7 +98,6 @@ def main_func(event, context):
             output_text += " {} ".format(p_user)
 
         output_text += "\n\n{}".format(col_text)
-        folder_id = '1S1Pv5OdU55vQLpdFkaNh-J7GxDjSQh2-'
         save_text_file(folder_id, "Slackからのテスト投稿", output_text)
 
         message = "MTGを終了したよ！このスレッドの内容は以下のリンクに書き込んでおいたよ！\n https://www.google.com/"
