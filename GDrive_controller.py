@@ -1,10 +1,8 @@
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
-
-
 # 指定された場所にテキストファイルを保存する
-def save_text_file(folder_id, title, text):
+def save_text_file(folder_id, text, title="title_not_found"):
     gauth = GoogleAuth()
     gauth.CommandLineAuth()
     drive = GoogleDrive(gauth)
@@ -15,6 +13,4 @@ def save_text_file(folder_id, title, text):
                           'parents': [{'kind': 'drive#fileLink', 'id': folder_id}]})
     f.SetContentString(text)
     f.Upload()
-
-folder_id = '1S1Pv5OdU55vQLpdFkaNh-J7GxDjSQh2-'
-save_text_file(folder_id, 'test', 'test')
+    return 0
