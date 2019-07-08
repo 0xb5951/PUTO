@@ -2,6 +2,7 @@ import json
 import threading
 import requests
 import os
+import datetime
 from post_message_to_slack import post_message_to_slack, post_thread_message
 from GDrive_controller import save_text_file
 
@@ -46,13 +47,13 @@ def main_func(event, context):
     message_ts = event['body']['event']['ts']
 
     if 'start_mtg' in post_text:
-        message = "MTGを始めるよ！スレッドに\n```\n@PUTO title MTGのタイトル\n```\nを入力してね！"
+        message = "Starting the meeting! Type `@PUTO title <meeting_title>` in the thread!"
         post_message_to_slack(message, channel)
         return 0
 
     # タイトルの確認
     if 'title' in post_text and '<@UL8FXT8QN>' in post_text:
-        message = "タイトルを保存したよ！\nこのMTGに参加する人はjoin、興味がある人はwatchをスレッドに書き込んでね！"
+        message = "Title saved successfully! Type `join` to join the meeting, or `watch` if you are interested in the meeting!"
         res = post_thread_message(message, channel, message_ts)
         return 0
 
@@ -66,6 +67,8 @@ def main_func(event, context):
         user_names = []
         output_text = ""
 
+        title_flag = 0
+
         slack_users = get_slack_user()
 
         for slack_user in slack_users["members"]:
@@ -78,6 +81,14 @@ def main_func(event, context):
             if "subtype" in thread_message:
                 if thread_message["subtype"] == 'bot_message':
                     continue
+
+            # titleを探す
+            if 'title' in thread_message["text"] and '<@UL8FXT8QN>' in thread_message["text"]:
+                if title_flag == 0:
+                    file_title = str(datetime.date.today()) + '_' + \
+                    thread_message["text"].replace('title', '').replace('<@UL8FXT8QN>', '')
+                    title_flag = 1
+                continue
 
             # 参加者を抜き出す.
             if 'join' in thread_message["text"]:
@@ -98,12 +109,12 @@ def main_func(event, context):
             output_text += " {} ".format(p_user)
 
         output_text += "\n\n{}".format(col_text)
-        save_text_file(folder_id, "Slackからのテスト投稿", output_text)
+        save_text_file(folder_id, output_text, file_title)
 
-        message = "MTGを終了したよ！このスレッドの内容は以下のリンクに書き込んでおいたよ！\n https://www.google.com/"
+        message = "The meeting has ended! See the contents of this thread in the following link!\n https://drive.google.com/drive/u/0/folders/1S1Pv5OdU55vQLpdFkaNh-J7GxDjSQh2-"
         res = post_thread_message(message, channel, message_ts)
         return 0
 
-    message = "そんなコマンドはないよ！以下でヘルプを確認してね"
+    message = "I cant't find command...\nCheck `@PUTO help` command."
     post_message_to_slack(message, channel)
     return 0

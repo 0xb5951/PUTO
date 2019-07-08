@@ -1,6 +1,21 @@
 ## 概要
 SLACKのメモをドキュメントに起こしてくれるSlack Bot。
 
+## Botの返答
+- start_mtg : MTGを始めるよ！スレッドに```@PUTO title MTGのタイトル```を入力してね！
+- title : タイトルを保存したよ！このＭＴＧに参加する人はjoin、興味がある人はwatchをスレッドに書き込んでね！
+- end_mtg : MTGを終了したよ！このスレッドの内容は以下のリンクに書き込んでおいたよ！
+コマンドなし
+そんなコマンドはないよ！以下でヘルプを確認してね
+
+英語ver
+- start_mtg: Starting the meeting! Type `@PUTO title <meeting_title>` in the thread!
+- title: Title saved successfully! Type `join` to join the meeting, or `watch` if you are interested in the meeting!
+- end_mtg: The meeting has ended! See the contents of this thread in the following link!
+not found
+I cant't find command...\n
+Check `@PUTO help` command.
+
 ### アップロード方法
 このリポジトリをzipで固める
 
@@ -72,6 +87,8 @@ Driveへの初回書き込みは認証が必要なので、ローカルで実行
 
 特定のフォルダ配下に書き込むためには、フォルダのIDが必要。
 
+## 認証プロセスを無効化する
+
 ## ファイルとフォルダを検索する
 フォルダはランダムなIDで管理されている。
 
@@ -84,3 +101,20 @@ Slackのアクセストークン
 https://qiita.com/gureta/items/879eef81055921f845aa
 https://admarimoin.hatenablog.com/entry/2018/05/07/200939
 https://news.mynavi.jp/article/zeropython-16/
+https://codeday.me/jp/qa/20190107/136715.html
+
+トークン切れ
+<!-- def save_text_file(folder_id, text, title="title_not_found"): -->
+    gauth = GoogleAuth()
+    gauth.CommandLineAuth()
+    drive = GoogleDrive(gauth)
+
+    file_name = "test.txt"
+    f = drive.CreateFile({'title': file_name})
+    f.SetContentString('test')
+    f.Upload()
+
+
+プレゼン
+@PUTO start_
+Planning for the next season
