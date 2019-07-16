@@ -1,5 +1,6 @@
 ## 概要
 SLACKのメモをドキュメントに起こしてくれるSlack Bot。
+lambdaで作成しようと思ったが、Google Drive Apiの仕様上難しいので、django-rest-apiで作成する
 
 ## Botの返答
 - start_mtg : MTGを始めるよ！スレッドに```@PUTO title MTGのタイトル```を入力してね！
